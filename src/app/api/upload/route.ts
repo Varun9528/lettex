@@ -21,16 +21,17 @@ export async function POST(request: NextRequest) {
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json({ 
         success: false, 
-        error: 'Invalid file type. Only JPEG, PNG, and WebP are allowed.' 
+        error: `Invalid file type: ${file.type}. Only JPEG, PNG, and WebP are allowed.` 
       }, { status: 400 });
     }
 
     // Validate file size (max 5MB)
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
       return NextResponse.json({ 
         success: false, 
-        error: 'File size too large. Maximum size is 5MB.' 
+        error: `File size too large: ${fileSizeMB}MB. Maximum size is 5MB. Please compress your image or choose a smaller file.` 
       }, { status: 400 });
     }
 
@@ -74,11 +75,11 @@ export async function POST(request: NextRequest) {
       message: 'File uploaded successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error uploading file:', error);
     return NextResponse.json({ 
       success: false, 
-      error: 'Failed to upload file' 
+      error: 'Failed to upload file: ' + (error.message || error.toString() || 'Unknown error')
     }, { status: 500 });
   }
 }
@@ -110,11 +111,11 @@ export async function DELETE(request: NextRequest) {
       message: 'File deleted successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error deleting file:', error);
     return NextResponse.json({ 
       success: false, 
-      error: 'Failed to delete file' 
+      error: 'Failed to delete file: ' + (error.message || error.toString() || 'Unknown error')
     }, { status: 500 });
   }
 }

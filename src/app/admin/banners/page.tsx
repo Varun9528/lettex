@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -19,37 +20,23 @@ interface Banner {
 }
 
 export default function AdminBannersPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check admin auth
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    
-    if (!token || !userData) {
-      router.push('/login');
-      return;
-    }
-
-    try {
-      const user = JSON.parse(userData);
-      if (user.role !== 'admin' && user.role !== 'super_admin') {
-        router.push('/');
-        return;
-      }
-    } catch (error) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
       router.push('/login');
       return;
     }
 
     loadBanners();
-  }, [router]);
+  }, [user, router]);
 
   const loadBanners = async () => {
     try {
-      const response = await fetch('/api/banners');
+      const response = await fetch('/api/admin/banners');
       if (response.ok) {
         const data = await response.json();
         setBanners(data.banners || []);

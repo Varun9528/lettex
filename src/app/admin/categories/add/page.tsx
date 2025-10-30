@@ -85,7 +85,7 @@ export default function AddBanner() {
       } else {
         throw new Error(data.error || 'Failed to upload image');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading image:', error);
       throw error;
     } finally {
@@ -124,7 +124,7 @@ export default function AddBanner() {
       } else {
         alert('Error adding banner: ' + data.error);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding banner:', error);
       alert('Failed to add banner');
     } finally {

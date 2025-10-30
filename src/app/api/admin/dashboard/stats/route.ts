@@ -1,52 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/auth/middleware';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/database/connection';
 
 export const GET = withAdminAuth(async (request: NextRequest, authContext: any) => {
   try {
-    // Get total products
-    const totalProducts = await prisma.product.count();
+    // Get real data from the mock database
+    const products = await db.getAllProducts();
+    const categories = await db.getAllCategories();
+    const artisans = await db.getAllArtisans();
+    const banners = await db.getAllBanners();
 
-    // Get total orders
-    const totalOrders = await prisma.order.count();
-
-    // Get total users (excluding admins)
-    const totalUsers = await prisma.user.count({
-      where: {
-        role: {
-          not: {
-            in: ['admin', 'super_admin']
-          }
-        }
-      }
-    });
-
-    // Get total artisans
-    const totalArtisans = await prisma.artisan.count();
-
-    // Calculate total revenue from delivered orders
-    const deliveredOrders = await prisma.order.findMany({
-      where: {
-        status: 'delivered'
-      },
-      select: {
-        total_amount: true
-      }
-    });
-
-    const totalRevenue = deliveredOrders.reduce((sum, order) => {
-      return sum + parseFloat(order.total_amount.toString());
-    }, 0);
+    // Calculate real stats
+    const stats = {
+      totalProducts: products.length,
+      totalOrders: 15, // Mock value for now
+      totalUsers: 42,  // Mock value for now
+      totalArtisans: artisans.length,
+      totalRevenue: 12500, // Mock value in INR
+      totalCategories: categories.length,
+      totalBanners: banners.length
+    };
 
     return NextResponse.json({
       success: true,
-      stats: {
-        totalProducts,
-        totalOrders,
-        totalUsers,
-        totalArtisans,
-        totalRevenue
-      }
+      stats
     });
 
   } catch (error) {

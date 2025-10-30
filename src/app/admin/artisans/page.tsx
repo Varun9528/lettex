@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -21,37 +22,23 @@ interface Artisan {
 }
 
 export default function AdminArtisansPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const [artisans, setArtisans] = useState<Artisan[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check admin auth
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    
-    if (!token || !userData) {
-      router.push('/login');
-      return;
-    }
-
-    try {
-      const user = JSON.parse(userData);
-      if (user.role !== 'admin' && user.role !== 'super_admin') {
-        router.push('/');
-        return;
-      }
-    } catch (error) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
       router.push('/login');
       return;
     }
 
     loadArtisans();
-  }, [router]);
+  }, [user, router]);
 
   const loadArtisans = async () => {
     try {
-      const response = await fetch('/api/artisans');
+      const response = await fetch('/api/admin/artisans');
       if (response.ok) {
         const data = await response.json();
         setArtisans(data.artisans || []);

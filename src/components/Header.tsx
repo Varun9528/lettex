@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Search, ShoppingCart, Heart, User, Sun, Moon, Menu, X, MapPin } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -13,6 +14,7 @@ export default function Header() {
   const { state: cartState } = useCart();
   const { state: wishlistState } = useWishlist();
   const { language, setLanguage } = useLanguage();
+  const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,6 +37,7 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
+      
       router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
     }
   };
@@ -126,9 +129,28 @@ export default function Header() {
             </div>
 
             {/* User icon */}
-            <Link href="/login" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
-              <User size={20} />
-            </Link>
+            {user ? (
+              <div className="relative group">
+                <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                  <User size={20} />
+                </button>
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+                  <Link href={user.role === 'admin' || user.role === 'super_admin' ? '/admin' : '/profile'} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    {user.role === 'admin' || user.role === 'super_admin' ? (language === 'en' ? 'Admin Dashboard' : 'व्यवस्थापक डैशबोर्ड') : (language === 'en' ? 'My Profile' : 'मेरी प्रोफ़ाइल')}
+                  </Link>
+                  <button 
+                    onClick={logout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    {language === 'en' ? 'Sign out' : 'साइन आउट'}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link href="/login" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                <User size={20} />
+              </Link>
+            )}
 
             {/* Wishlist icon */}
             <Link href="/wishlist" className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
@@ -200,6 +222,22 @@ export default function Header() {
               <Link href="/contact" className="py-2 hover:text-[#5C4033] dark:hover:text-[#FFD54F]" onClick={() => setIsMenuOpen(false)}>
                 {language === 'en' ? 'Contact' : 'संपर्क'}
               </Link>
+              {user && (
+                <>
+                  <Link href={user.role === 'admin' || user.role === 'super_admin' ? '/admin' : '/profile'} className="py-2 hover:text-[#5C4033] dark:hover:text-[#FFD54F]" onClick={() => setIsMenuOpen(false)}>
+                    {user.role === 'admin' || user.role === 'super_admin' ? (language === 'en' ? 'Admin Dashboard' : 'व्यवस्थापक डैशबोर्ड') : (language === 'en' ? 'My Profile' : 'मेरी प्रोफ़ाइल')}
+                  </Link>
+                  <button 
+                    onClick={() => {
+                      logout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-left py-2 hover:text-[#5C4033] dark:hover:text-[#FFD54F]"
+                  >
+                    {language === 'en' ? 'Sign out' : 'साइन आउट'}
+                  </button>
+                </>
+              )}
             </nav>
           </div>
         </div>
@@ -224,6 +262,11 @@ export default function Header() {
             <Link href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-[#5C4033] dark:hover:text-[#FFD54F] font-medium">
               {language === 'en' ? 'Contact' : 'संपर्क'}
             </Link>
+            {user && (
+              <Link href={user.role === 'admin' || user.role === 'super_admin' ? '/admin' : '/profile'} className="text-gray-700 dark:text-gray-300 hover:text-[#5C4033] dark:hover:text-[#FFD54F] font-medium">
+                {user.role === 'admin' || user.role === 'super_admin' ? (language === 'en' ? 'Admin' : 'व्यवस्थापक') : (language === 'en' ? 'Profile' : 'प्रोफ़ाइल')}
+              </Link>
+            )}
           </nav>
         </div>
       </div>

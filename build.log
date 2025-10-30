@@ -1,0 +1,209 @@
+
+> lettex-marketplace@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.production
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/99) ...
+Error getting server session: B [Error]: Dynamic server usage: Route /api/artisan/orders couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21778)
+    at Object.get (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:29465)
+    at a (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\artisan\orders\route.js:1:4550)
+    at u (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\artisan\orders\route.js:1:700)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38417
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854) {
+  description: "Route /api/artisan/orders couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting server session: B [Error]: Dynamic server usage: Route /api/artisan/products couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21778)
+    at Object.get (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:29465)
+    at a (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\wishlist\count\route.js:1:4509)
+    at l (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\artisan\products\route.js:1:711)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38417
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854) {
+  description: "Route /api/artisan/products couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error getting server session: B [Error]: Dynamic server usage: Route /api/cart/count couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21778)
+    at Object.get (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:29465)
+    at a (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\artisan\orders\route.js:1:4550)
+    at l (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\cart\count\route.js:1:711)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38417
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854) {
+  description: "Route /api/cart/count couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error fetching products: B [Error]: Dynamic server usage: Route /api/products couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21778)
+    at Object.get (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:29465)
+    at p (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\products\route.js:1:596)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38417
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:122:103 {
+  description: "Route /api/products couldn't be rendered statically because it used `request.url`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+   Generating static pages (24/99) 
+Error getting server session: B [Error]: Dynamic server usage: Route /api/wishlist/count couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at V (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:21778)
+    at Object.get (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:29465)
+    at n (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\artisan\dashboard\stats\route.js:1:4737)
+    at l (c:\Users\hp\Desktop\pachmarhi\lettex-clone\.next\server\app\api\wishlist\count\route.js:1:709)
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:38417
+    at c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (c:\Users\hp\Desktop\pachmarhi\lettex-clone\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854) {
+  description: "Route /api/wishlist/count couldn't be rendered statically because it used `request.headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+   Generating static pages (49/99) 
+   Generating static pages (74/99) 
+ ✓ Generating static pages (99/99)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    7.64 kB         278 kB
+├ ○ /_not-found                          142 B          87.5 kB
+├ ○ /about                               2.98 kB        94.9 kB
+├ ○ /admin                               5.22 kB         258 kB
+├ ○ /admin/analytics                     2.56 kB        89.9 kB
+├ ○ /admin/artisans                      4.08 kB         256 kB
+├ ○ /admin/artisans/new                  1.82 kB        97.9 kB
+├ ○ /admin/banners                       4.17 kB         257 kB
+├ ○ /admin/categories                    4.09 kB         257 kB
+├ ○ /admin/categories/add                4.81 kB         257 kB
+├ ƒ /admin/categories/edit/[id]          4.46 kB         257 kB
+├ ○ /admin/categories/new                1.71 kB        97.8 kB
+├ ○ /admin/orders                        5.04 kB         257 kB
+├ ƒ /admin/orders/[id]                   3.62 kB        99.7 kB
+├ ○ /admin/production-ready              1.68 kB          89 kB
+├ ○ /admin/products                      4.69 kB         257 kB
+├ ○ /admin/products/add                  6.55 kB         259 kB
+├ ƒ /admin/products/edit/[id]            7.08 kB         259 kB
+├ ○ /admin/products/new                  5.87 kB         258 kB
+├ ○ /admin/profile                       5.62 kB         249 kB
+├ ƒ /api/add-test-product                0 B                0 B
+├ ƒ /api/admin/artisans                  0 B                0 B
+├ ƒ /api/admin/banners                   0 B                0 B
+├ ƒ /api/admin/categories                0 B                0 B
+├ ƒ /api/admin/categories/[id]           0 B                0 B
+├ ƒ /api/admin/dashboard/stats           0 B                0 B
+├ ƒ /api/admin/products                  0 B                0 B
+├ ƒ /api/admin/products/[id]             0 B                0 B
+├ ƒ /api/admin/security-dashboard        0 B                0 B
+├ ƒ /api/artisan/dashboard/stats         0 B                0 B
+├ ƒ /api/artisan/orders                  0 B                0 B
+├ ƒ /api/artisan/products                0 B                0 B
+├ ƒ /api/artisans                        0 B                0 B
+├ ƒ /api/auth/login                      0 B                0 B
+├ ƒ /api/auth/logout                     0 B                0 B
+├ ƒ /api/auth/me                         0 B                0 B
+├ ƒ /api/auth/refresh                    0 B                0 B
+├ ƒ /api/auth/register                   0 B                0 B
+├ ƒ /api/auth/sessions                   0 B                0 B
+├ ƒ /api/auth/test-login                 0 B                0 B
+├ ƒ /api/auth/verify-email               0 B                0 B
+├ ƒ /api/cart                            0 B                0 B
+├ ƒ /api/cart/add                        0 B                0 B
+├ ƒ /api/cart/clear                      0 B                0 B
+├ ƒ /api/cart/count                      0 B                0 B
+├ ○ /api/categories                      0 B                0 B
+├ ƒ /api/checkout                        0 B                0 B
+├ ƒ /api/checkout/place-order            0 B                0 B
+├ ƒ /api/coupons                         0 B                0 B
+├ ƒ /api/coupons/apply                   0 B                0 B
+├ ○ /api/health                          0 B                0 B
+├ ○ /api/health/admin                    0 B                0 B
+├ ○ /api/health/database                 0 B                0 B
+├ ƒ /api/notifications                   0 B                0 B
+├ ƒ /api/notifications/mark-all-read     0 B                0 B
+├ ƒ /api/orders                          0 B                0 B
+├ ƒ /api/payment                         0 B                0 B
+├ ƒ /api/privacy/data                    0 B                0 B
+├ ƒ /api/products                        0 B                0 B
+├ ƒ /api/products/[slug]                 0 B                0 B
+├ ○ /api/recent-products                 0 B                0 B
+├ ƒ /api/recommendations                 0 B                0 B
+├ ƒ /api/search                          0 B                0 B
+├ ƒ /api/shipping-options                0 B                0 B
+├ ƒ /api/shipping-options/[id]           0 B                0 B
+├ ƒ /api/simple-test                     0 B                0 B
+├ ƒ /api/test                            0 B                0 B
+├ ○ /api/test-db                         0 B                0 B
+├ ○ /api/test-products                   0 B                0 B
+├ ƒ /api/upload                          0 B                0 B
+├ ƒ /api/user/addresses                  0 B                0 B
+├ ƒ /api/user/orders                     0 B                0 B
+├ ƒ /api/user/profile                    0 B                0 B
+├ ƒ /api/wishlist                        0 B                0 B
+├ ƒ /api/wishlist/clear                  0 B                0 B
+├ ƒ /api/wishlist/count                  0 B                0 B
+├ ƒ /artisan/[slug]                      1.93 kB         103 kB
+├ ○ /artisan/dashboard                   4.82 kB         262 kB
+├ ○ /artisan/products                    3.08 kB        99.2 kB
+├ ○ /artisan/products/new                3.19 kB        99.3 kB
+├ ○ /artisans                            1.9 kB          103 kB
+├ ○ /cart                                3.31 kB         270 kB
+├ ○ /categories                          4.01 kB         100 kB
+├ ƒ /category/[slug]                     3.04 kB         278 kB
+├ ○ /checkout                            4.01 kB         270 kB
+├ ○ /compare                             4.68 kB         106 kB
+├ ○ /contact                             2.43 kB        89.8 kB
+├ ○ /forgot-password                     1.67 kB        97.8 kB
+├ ○ /login                               4.28 kB         257 kB
+├ ○ /notifications                       2.87 kB          99 kB
+├ ○ /offline                             1.07 kB        97.2 kB
+├ ○ /order-success                       1.61 kB         102 kB
+├ ○ /payment-failure                     1.44 kB        97.5 kB
+├ ○ /payment-success                     1.56 kB        97.7 kB
+├ ○ /privacy-policy                      3.28 kB         104 kB
+├ ƒ /product/[slug]                      6.39 kB         273 kB
+├ ○ /products                            2.43 kB         273 kB
+├ ○ /profile                             7.02 kB         264 kB
+├ ○ /profile/orders                      2 kB           98.1 kB
+├ ○ /refund-policy                       3.08 kB          95 kB
+├ ○ /register                            2.24 kB        98.3 kB
+├ ○ /search                              1.12 kB         271 kB
+├ ○ /shipping-policy                     1.74 kB        97.8 kB
+├ ○ /support                             2.3 kB         98.4 kB
+├ ○ /terms-conditions                    1.64 kB        97.7 kB
+└ ○ /wishlist                            6.39 kB         269 kB
++ First Load JS shared by all            87.4 kB
+  ├ chunks/2117-9ea0ab17e46566e5.js      31.7 kB
+  ├ chunks/fd9d1056-b267d9ebeb5bbc1c.js  53.6 kB
+  └ other shared chunks (total)          2 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

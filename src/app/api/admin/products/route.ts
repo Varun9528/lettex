@@ -1,36 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/database/connection';
 import { withAdminAuth } from '@/lib/auth/middleware';
 
 export const GET = withAdminAuth(async (request: NextRequest, authContext: any) => {
   try {
-    const products = await prisma.product.findMany({
-      include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true
-          }
-        },
-        artisan: {
-          select: {
-            id: true,
-            name: true,
-            village: true
-          }
-        },
-        productImages: {
-          select: {
-            url: true,
-            isPrimary: true
-          }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
+    // Use mock database instead of Prisma
+    const products = await db.getAllProducts();
 
     return NextResponse.json({
       success: true,
@@ -54,7 +29,6 @@ export const POST = withAdminAuth(async (request: NextRequest, authContext: any)
       title,
       slug,
       description,
-      shortDesc,
       price,
       originalPrice,
       images,
@@ -68,9 +42,7 @@ export const POST = withAdminAuth(async (request: NextRequest, authContext: any)
       newArrival,
       trending,
       categoryId,
-      artisanId,
-      metaTitle,
-      metaDesc
+      artisanId
     } = body;
 
     // Validate required fields
@@ -82,9 +54,8 @@ export const POST = withAdminAuth(async (request: NextRequest, authContext: any)
     }
 
     // Check if slug already exists
-    const existingProduct = await prisma.product.findUnique({
-      where: { slug }
-    });
+    const existingProducts = await db.getAllProducts();
+    const existingProduct = existingProducts.find((p: any) => p.slug === slug);
 
     if (existingProduct) {
       return NextResponse.json({
@@ -93,62 +64,32 @@ export const POST = withAdminAuth(async (request: NextRequest, authContext: any)
       }, { status: 400 });
     }
 
-    // Create the product
-    const product = await prisma.product.create({
-      data: {
-        title,
-        slug,
-        description,
-        shortDesc: shortDesc || description,
-        price: parseFloat(price),
-        originalPrice: originalPrice ? parseFloat(originalPrice) : null,
-        sku: sku || slug.toUpperCase(),
-        stock: parseInt(stock) || 0,
-        tags: tags || null,
-        inStock: parseInt(stock) > 0,
-        featured: Boolean(featured),
-        bestSeller: Boolean(bestSeller),
-        newArrival: Boolean(newArrival),
-        trending: Boolean(trending),
-        isActive: true,
-        rating: 0,
-        reviewCount: 0,
-        viewCount: 0,
-        saleCount: 0,
-        categoryId,
-        artisanId,
-        metaTitle,
-        metaDesc,
-        productImages: {
-          create: images?.map((url: string, index: number) => ({
-            url,
-            isPrimary: index === 0,
-            sortOrder: index
-          })) || []
-        },
-        productMaterials: {
-          create: materials?.map((material: string) => ({
-            material
-          })) || []
-        },
-        productColors: {
-          create: colors?.map((color: string) => ({
-            color
-          })) || []
-        }
-      },
-      include: {
-        category: true,
-        artisan: true,
-        productImages: true,
-        productMaterials: true,
-        productColors: true
-      }
-    });
+    // Create the product in the database
+    const productData: any = {
+      title,
+      slug,
+      description,
+      price: parseFloat(price),
+      originalPrice: originalPrice ? parseFloat(originalPrice) : null,
+      stock: parseInt(stock) || 0,
+      sku: sku || slug.toUpperCase(),
+      featured: Boolean(featured),
+      bestSeller: Boolean(bestSeller),
+      newArrival: Boolean(newArrival),
+      trending: Boolean(trending),
+      categoryId,
+      artisanId,
+      images: images || [],
+      materials: materials || [],
+      colors: colors || [],
+      tags: tags || []
+    };
+
+    const product = await db.createProduct(productData);
 
     return NextResponse.json({
       success: true,
-      product,
+      product: product,
       message: 'Product created successfully'
     });
 

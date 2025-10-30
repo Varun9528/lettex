@@ -13,7 +13,7 @@ export default function AdminProducts() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
       router.push('/login');
       return;
     }
@@ -232,12 +232,12 @@ export default function AdminProducts() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            product.isActive
+                            product.isActive !== false
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-800'
                           }`}
                         >
-                          {product.isActive ? 'Active' : 'Inactive'}
+                          {product.isActive !== false ? 'Active' : 'Inactive'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

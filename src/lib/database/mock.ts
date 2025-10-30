@@ -1,84 +1,111 @@
 // Mock database implementation for development
 import { User, CartItem, WishlistItem, Address } from '@/data/types';
+import bcrypt from 'bcryptjs';
+
+// Hash passwords for mock users
+const adminPasswordHash = bcrypt.hashSync('admin123', 12);
+const userPasswordHash = bcrypt.hashSync('user123', 12);
 
 // Mock users data
 const mockUsers: any[] = [
   {
     id: '1',
     email: 'admin@lettex.com',
-    password: '$2a$12$example_hashed_password', // In a real app, this would be properly hashed
+    password_hash: adminPasswordHash,
     name: 'Admin User',
     role: 'super_admin',
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
+    email_verified: true,
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z'
   },
   {
     id: '2',
     email: 'user@lettex.com',
-    password: '$2a$12$example_hashed_password', // In a real app, this would be properly hashed
+    password_hash: userPasswordHash,
     name: 'Demo User',
     role: 'customer',
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
+    email_verified: true,
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z'
   }
 ];
 
 // Mock products data
 const mockProducts: any[] = [
   {
-    id: 'bamboo-wall-art-001',
-    slug: 'bamboo-wall-art',
+    id: 'prod-001',
+    slug: 'geevi-atta-bag',
     title: {
-      en: 'Bamboo Wall Art',
-      hi: 'बांस की दीवार कला'
+      en: 'Geevi Atta Bag',
+      hi: 'गीवी अटा बैग'
     },
     description: {
-      en: 'Handcrafted by skilled Pachmarhi artisans, this bamboo wall art reflects centuries of tradition and artistry. Perfect for gifting or decorating your home with authentic tribal charm.',
-      hi: 'कुशल पचमढ़ी के कारीगरों द्वारा हस्तनिर्मित, यह बांस की दीवार कला शताब्दियों की परंपरा और कला को दर्शाता है। उपहार देने या अपने घर को प्रमाणिक जनजातीय आकर्षण के साथ सजाने के लिए उपयुक्त।'
+      en: 'Premium quality wheat flour from Geevi. Perfect for making soft rotis and breads.',
+      hi: 'गीवी से प्रीमियम गुणवत्ता वाला गेहूं का आटा। नरम रोटियां और ब्रेड बनाने के लिए उपयुक्त।'
     },
-    price: 2499,
-    originalPrice: 3499,
-    stock: 15,
+    price: 180,
+    originalPrice: 200,
+    stock: 50,
     rating: 4.5,
-    reviewCount: 23,
-    categoryId: 'home-decor',
-    artisanId: 'sarla-bai',
+    reviewCount: 28,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
     images: [
-      '/images/products/bamboo-wall-art/img1.jpg',
-      '/images/products/bamboo-wall-art/img2.jpg',
-      '/images/products/bamboo-wall-art/img3.jpg',
-      '/images/products/bamboo-wall-art/img4.jpg'
+      '/uploads/products/Geevi_Atta_Bag_Studio_Shot.png'
     ],
     featured: true,
-    bestSeller: false,
+    bestSeller: true,
     trending: true,
     newArrival: false,
     createdAt: '2024-01-15'
   },
   {
-    id: 'handloom-sari-001',
-    slug: 'handloom-sari',
+    id: 'prod-002',
+    slug: 'geevi-bay-leaf',
     title: {
-      en: 'Handloom Sari',
-      hi: 'हैंडलूम साड़ी'
+      en: 'Geevi Bay Leaf',
+      hi: 'गीवी तेजपत्ता'
     },
     description: {
-      en: 'Exquisite handloom sari woven with traditional patterns and vibrant colors. Made by skilled tribal artisans, this sari represents the rich textile heritage of Madhya Pradesh. Perfect for special occasions and cultural celebrations.',
-      hi: 'पारंपरिक पैटर्न और जीवंत रंगों के साथ बुनी गई उत्कृष्ट हैंडलूम साड़ी। कुशल जनजातीय कारीगरों द्वारा निर्मित, यह साड़ी मध्य प्रदेश की समृद्ध वस्त्र विरासत का प्रतिनिधित्व करती है।'
+      en: 'Aromatic bay leaves from Geevi. Adds rich flavor to curries, soups and rice dishes.',
+      hi: 'गीवी से सुगंधित तेजपत्ता। कढ़ियों, सूप और चावल के भोजन में समृद्ध स्वाद जोड़ता है।'
     },
-    price: 4999,
-    originalPrice: 6999,
-    stock: 8,
-    rating: 4.8,
-    reviewCount: 45,
-    categoryId: 'handloom-textiles',
-    artisanId: 'meera-gond',
+    price: 90,
+    originalPrice: 100,
+    stock: 40,
+    rating: 4.3,
+    reviewCount: 15,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
     images: [
-      '/images/products/handloom-sari/img1.jpg',
-      '/images/products/handloom-sari/img2.jpg',
-      '/images/products/handloom-sari/img3.jpg',
-      '/images/products/handloom-sari/img4.jpg',
-      '/images/products/handloom-sari/img5.jpg'
+      '/uploads/products/Geevi_BayLeaf_Studio_Product.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-01-20'
+  },
+  {
+    id: 'prod-003',
+    slug: 'geevi-besan-packet',
+    title: {
+      en: 'Geevi Besan Packet',
+      hi: 'गीवी बेसन पैकेट'
+    },
+    description: {
+      en: 'Fine quality besan (gram flour) from Geevi. Ideal for making pakoras, sweets and snacks.',
+      hi: 'गीवी से उच्च गुणवत्ता वाला बेसन (चना आटा)। पकौड़े, मिठाइयां और स्नैक्स बनाने के लिए आदर्श।'
+    },
+    price: 120,
+    originalPrice: 140,
+    stock: 35,
+    rating: 4.7,
+    reviewCount: 22,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Besan_Packet_Product_Shot.png'
     ],
     featured: true,
     bestSeller: true,
@@ -87,60 +114,498 @@ const mockProducts: any[] = [
     createdAt: '2024-01-10'
   },
   {
-    id: 'terracotta-necklace-001',
-    slug: 'terracotta-necklace',
+    id: 'prod-004',
+    slug: 'geevi-biscuits',
     title: {
-      en: 'Terracotta Necklace',
-      hi: 'टेराकोटा हार'
+      en: 'Geevi Biscuits',
+      hi: 'गीवी बिस्कुट'
     },
     description: {
-      en: 'Elegant terracotta necklace handcrafted with intricate designs. This piece combines earthy textures with artistic patterns, making it perfect for both casual and formal occasions. Each bead is individually shaped and painted.',
-      hi: 'जटिल डिजाइनों के साथ हस्तनिर्मित सुरुचिपूर्ण टेराकोटा हार। यह टुकड़ा मिट्टी की बनावट को कलात्मक पैटर्न के साथ जोड़ता है, जो इसे आकस्मिक और औपचारिक दोनों अवसरों के लिए आदर्श बनाता है।'
+      en: 'Delicious and crispy biscuits from Geevi. Perfect for tea time and snacks.',
+      hi: 'गीवी से स्वादिष्ट और क्रिस्पी बिस्कुट। चाय के समय और स्नैक्स के लिए आदर्श।'
     },
-    price: 899,
-    originalPrice: 1299,
-    stock: 25,
-    rating: 4.3,
+    price: 80,
+    originalPrice: 100,
+    stock: 60,
+    rating: 4.2,
     reviewCount: 18,
-    categoryId: 'jewelry',
-    artisanId: 'ramesh-uikey',
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
     images: [
-      '/images/products/terracotta-necklace/img1.jpg',
-      '/images/products/terracotta-necklace/img2.jpg',
-      '/images/products/terracotta-necklace/img3.jpg'
+      '/uploads/products/Geevi_Biscuits_Studio_Shot.png'
     ],
     featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-02-01'
+  },
+  {
+    id: 'prod-005',
+    slug: 'geevi-butter-box',
+    title: {
+      en: 'Geevi Butter Box',
+      hi: 'गीवी मक्खन बॉक्स'
+    },
+    description: {
+      en: 'Rich and creamy butter from Geevi. Made from pure cow milk for authentic taste.',
+      hi: 'गीवी से समृद्ध और क्रीमी मक्खन। प्रामाणिक स्वाद के लिए शुद्ध गाय के दूध से बनाया गया।'
+    },
+    price: 220,
+    originalPrice: 250,
+    stock: 25,
+    rating: 4.8,
+    reviewCount: 35,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Butter_Box_Studio.png'
+    ],
+    featured: true,
     bestSeller: true,
     trending: true,
     newArrival: false,
-    createdAt: '2024-01-20'
+    createdAt: '2024-01-12'
+  },
+  {
+    id: 'prod-006',
+    slug: 'geevi-chana-packet',
+    title: {
+      en: 'Geevi Chana Packet',
+      hi: 'गीवी चना पैकेट'
+    },
+    description: {
+      en: 'Premium quality chana (chickpeas) from Geevi. Perfect for salads, curries and snacks.',
+      hi: 'गीवी से प्रीमियम गुणवत्ता वाला चना। सलाद, कढ़ियों और स्नैक्स के लिए आदर्श।'
+    },
+    price: 150,
+    originalPrice: 180,
+    stock: 30,
+    rating: 4.4,
+    reviewCount: 20,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Chana_Packet_Studio.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-01-25'
+  },
+  {
+    id: 'prod-007',
+    slug: 'geevi-cheese-slices',
+    title: {
+      en: 'Geevi Cheese Slices',
+      hi: 'गीवी चीज़ स्लाइस'
+    },
+    description: {
+      en: 'Delicious cheese slices from Geevi. Perfect for sandwiches, burgers and breakfast.',
+      hi: 'गीवी से स्वादिष्ट चीज़ स्लाइस। सैंडविच, बर्गर और नाश्ते के लिए आदर्श।'
+    },
+    price: 180,
+    originalPrice: 200,
+    stock: 20,
+    rating: 4.6,
+    reviewCount: 25,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Cheese_Slices_Product_Shot.png'
+    ],
+    featured: true,
+    bestSeller: false,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-18'
+  },
+  {
+    id: 'prod-008',
+    slug: 'geevi-chili-powder',
+    title: {
+      en: 'Geevi Chili Powder',
+      hi: 'गीवी चिली पाउडर'
+    },
+    description: {
+      en: 'Spicy chili powder from Geevi. Adds perfect heat to your dishes.',
+      hi: 'गीवी से मसालेदार चिली पाउडर। आपके भोजन में सही गरमाहट जोड़ता है।'
+    },
+    price: 90,
+    originalPrice: 100,
+    stock: 45,
+    rating: 4.3,
+    reviewCount: 17,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Chili_Powder_Studio_Shot.png'
+    ],
+    featured: false,
+    bestSeller: true,
+    trending: false,
+    newArrival: false,
+    createdAt: '2024-01-08'
+  },
+  {
+    id: 'prod-009',
+    slug: 'geevi-cloves-packet',
+    title: {
+      en: 'Geevi Cloves Packet',
+      hi: 'गीवी लौंग पैकेट'
+    },
+    description: {
+      en: 'Aromatic cloves from Geevi. Perfect for flavoring rice, biryani and meat dishes.',
+      hi: 'गीवी से सुगंधित लौंग। चावल, बिरयानी और मांस के भोजन को स्वाद देने के लिए आदर्श।'
+    },
+    price: 120,
+    originalPrice: 140,
+    stock: 35,
+    rating: 4.5,
+    reviewCount: 19,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Cloves_Packet_Photography.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-01-30'
+  },
+  {
+    id: 'prod-010',
+    slug: 'geevi-coffee-pouch',
+    title: {
+      en: 'Geevi Coffee Pouch',
+      hi: 'गीवी कॉफी पाउच'
+    },
+    description: {
+      en: 'Rich and aromatic coffee from Geevi. Start your day with a perfect cup of coffee.',
+      hi: 'गीवी से समृद्ध और सुगंधित कॉफी। एक परफेक्ट कप कॉफी के साथ अपना दिन शुरू करें।'
+    },
+    price: 250,
+    originalPrice: 280,
+    stock: 20,
+    rating: 4.7,
+    reviewCount: 32,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Coffee_Pouch_Studio_Shot.png'
+    ],
+    featured: true,
+    bestSeller: true,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-14'
+  },
+  {
+    id: 'prod-011',
+    slug: 'geevi-coriander-powder',
+    title: {
+      en: 'Geevi Coriander Powder',
+      hi: 'गीवी धनिया पाउडर'
+    },
+    description: {
+      en: 'Freshly ground coriander powder from Geevi. Essential spice for Indian cooking.',
+      hi: 'गीवी से ताजा पीसा धनिया पाउडर। भारतीय रसोई के लिए आवश्यक मसाला।'
+    },
+    price: 80,
+    originalPrice: 90,
+    stock: 50,
+    rating: 4.4,
+    reviewCount: 24,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Coriander_Powder_Product_Shot.png'
+    ],
+    featured: false,
+    bestSeller: true,
+    trending: false,
+    newArrival: false,
+    createdAt: '2024-01-05'
+  },
+  {
+    id: 'prod-012',
+    slug: 'geevi-cumin-packet',
+    title: {
+      en: 'Geevi Cumin Packet',
+      hi: 'गीवी जीरा पैकेट'
+    },
+    description: {
+      en: 'Premium quality cumin seeds from Geevi. Adds authentic flavor to curries and snacks.',
+      hi: 'गीवी से प्रीमियम गुणवत्ता वाले जीरा के बीज। कढ़ियों और स्नैक्स में प्रामाणिक स्वाद जोड़ता है।'
+    },
+    price: 100,
+    originalPrice: 120,
+    stock: 40,
+    rating: 4.6,
+    reviewCount: 21,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Cumin_Packet_Product_Shot.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-22'
+  },
+  {
+    id: 'prod-013',
+    slug: 'geevi-curd-cup',
+    title: {
+      en: 'Geevi Curd Cup',
+      hi: 'गीवी दही कप'
+    },
+    description: {
+      en: 'Fresh and creamy curd from Geevi. Made from pure cow milk for authentic taste.',
+      hi: 'गीवी से ताजा और क्रीमी दही। प्रामाणिक स्वाद के लिए शुद्ध गाय के दूध से बनाया गया।'
+    },
+    price: 60,
+    originalPrice: 70,
+    stock: 30,
+    rating: 4.5,
+    reviewCount: 28,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Curd_Cup_Product_Shot.png'
+    ],
+    featured: true,
+    bestSeller: true,
+    trending: false,
+    newArrival: false,
+    createdAt: '2024-01-16'
+  },
+  {
+    id: 'prod-014',
+    slug: 'geevi-curd-tub',
+    title: {
+      en: 'Geevi Curd Tub',
+      hi: 'गीवी दही टब'
+    },
+    description: {
+      en: 'Rich and creamy curd tub from Geevi. Perfect for daily consumption and cooking.',
+      hi: 'गीवी से समृद्ध और क्रीमी दही टब। दैनिक उपभोग और रसोई के लिए आदर्श।'
+    },
+    price: 120,
+    originalPrice: 140,
+    stock: 25,
+    rating: 4.7,
+    reviewCount: 30,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Curd_Tub_Product_Shot.png'
+    ],
+    featured: true,
+    bestSeller: false,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-13'
+  },
+  {
+    id: 'prod-015',
+    slug: 'geevi-ghee',
+    title: {
+      en: 'Geevi Ghee',
+      hi: 'गीवी घी'
+    },
+    description: {
+      en: 'Pure and aromatic ghee from Geevi. Made from cow milk for authentic taste.',
+      hi: 'गीवी से शुद्ध और सुगंधित घी। प्रामाणिक स्वाद के लिए गाय के दूध से बनाया गया।'
+    },
+    price: 400,
+    originalPrice: 450,
+    stock: 20,
+    rating: 4.9,
+    reviewCount: 42,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Ghee_Product_Shot.png'
+    ],
+    featured: true,
+    bestSeller: true,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-10'
+  },
+  {
+    id: 'prod-016',
+    slug: 'geevi-lentil-pouch',
+    title: {
+      en: 'Geevi Lentil Pouch',
+      hi: 'गीवी दाल पाउच'
+    },
+    description: {
+      en: 'Premium quality mixed lentils from Geevi. Perfect for daily cooking and soups.',
+      hi: 'गीवी से प्रीमियम गुणवत्ता वाली मिश्रित दालें। दैनिक रसोई और सूप के लिए आदर्श।'
+    },
+    price: 180,
+    originalPrice: 200,
+    stock: 35,
+    rating: 4.3,
+    reviewCount: 18,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Lentil_Pouch_Product_Shot.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-02-01'
+  },
+  {
+    id: 'prod-017',
+    slug: 'geevi-maida-bag',
+    title: {
+      en: 'Geevi Maida Bag',
+      hi: 'गीवी मैदा बैग'
+    },
+    description: {
+      en: 'Fine quality maida from Geevi. Perfect for making cakes, pastries and fried snacks.',
+      hi: 'गीवी से उच्च गुणवत्ता वाला मैदा। केक, पेस्ट्रीज़ और फ्राइड स्नैक्स बनाने के लिए आदर्श।'
+    },
+    price: 90,
+    originalPrice: 100,
+    stock: 45,
+    rating: 4.1,
+    reviewCount: 15,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Maida_Bag_Product_Shot.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-01-28'
+  },
+  {
+    id: 'prod-018',
+    slug: 'geevi-masoor-dal',
+    title: {
+      en: 'Geevi Masoor Dal',
+      hi: 'गीवी मसूर दाल'
+    },
+    description: {
+      en: 'Premium quality masoor dal from Geevi. Quick cooking and rich in protein.',
+      hi: 'गीवी से प्रीमियम गुणवत्ता वाली मसूर दाल। तेज़ पकाने वाली और प्रोटीन से भरपूर।'
+    },
+    price: 140,
+    originalPrice: 160,
+    stock: 30,
+    rating: 4.6,
+    reviewCount: 26,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Masoor_Dal_Packshot.png'
+    ],
+    featured: true,
+    bestSeller: true,
+    trending: false,
+    newArrival: false,
+    createdAt: '2024-01-11'
+  },
+  {
+    id: 'prod-019',
+    slug: 'geevi-milk-pack',
+    title: {
+      en: 'Geevi Milk Pack',
+      hi: 'गीवी दूध पैक'
+    },
+    description: {
+      en: 'Fresh and pure milk from Geevi. Rich in calcium and essential nutrients.',
+      hi: 'गीवी से ताजा और शुद्ध दूध। कैल्शियम और आवश्यक पोषक तत्वों से भरपूर।'
+    },
+    price: 60,
+    originalPrice: 70,
+    stock: 40,
+    rating: 4.4,
+    reviewCount: 35,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Milk_Pack_Studio.png'
+    ],
+    featured: true,
+    bestSeller: false,
+    trending: true,
+    newArrival: false,
+    createdAt: '2024-01-15'
+  },
+  {
+    id: 'prod-020',
+    slug: 'geevi-milk-tetra-pack',
+    title: {
+      en: 'Geevi Milk Tetra Pack',
+      hi: 'गीवी दूध टेट्रा पैक'
+    },
+    description: {
+      en: 'Long shelf life milk from Geevi. Perfect for storage and daily consumption.',
+      hi: 'गीवी से लंबे समय तक संग्रहण योग्य दूध। संग्रहण और दैनिक उपभोग के लिए आदर्श।'
+    },
+    price: 70,
+    originalPrice: 80,
+    stock: 35,
+    rating: 4.3,
+    reviewCount: 28,
+    categoryId: 'grocery-products',
+    artisanId: 'local-farmers',
+    images: [
+      '/uploads/products/Geevi_Milk_Tetra_Pack.png'
+    ],
+    featured: false,
+    bestSeller: false,
+    trending: false,
+    newArrival: true,
+    createdAt: '2024-01-25'
   }
 ];
 
 // Mock categories data
 const mockCategories: any[] = [
   {
-    id: 'home-decor',
-    slug: 'home-decor',
+    id: 'grocery-products',
+    slug: 'grocery-products',
     name: {
-      en: 'Home Decor',
-      hi: 'घर की सजावट'
+      en: 'Grocery Products',
+      hi: 'किराने की वस्तुएं'
     }
   },
   {
-    id: 'jewelry',
-    slug: 'jewelry',
+    id: 'refined-oil',
+    slug: 'refined-oil',
     name: {
-      en: 'Jewelry',
-      hi: 'आभूषण'
+      en: 'Refined Oil',
+      hi: 'शोधित तेल'
     }
   },
   {
-    id: 'handloom-textiles',
-    slug: 'handloom-textiles',
+    id: 'milk-products',
+    slug: 'milk-products',
     name: {
-      en: 'Handloom Textiles',
-      hi: 'हैंडलूम कपड़े'
+      en: 'Milk Products',
+      hi: 'दूध के उत्पाद'
+    }
+  },
+  {
+    id: 'own-products',
+    slug: 'own-products',
+    name: {
+      en: 'Own Products',
+      hi: 'अपने उत्पाद'
     }
   }
 ];
@@ -148,22 +613,16 @@ const mockCategories: any[] = [
 // Mock artisans data
 const mockArtisans: any[] = [
   {
-    id: 'sarla-bai',
-    slug: 'sarla-bai',
-    name: 'Sarla Bai',
-    village: 'Pachmarhi'
+    id: 'local-farmers',
+    slug: 'local-farmers',
+    name: 'Local Farmers',
+    village: 'Local Community'
   },
   {
-    id: 'meera-gond',
-    slug: 'meera-gond',
-    name: 'Meera Gond',
-    village: 'Pipariya'
-  },
-  {
-    id: 'ramesh-uikey',
-    slug: 'ramesh-uikey',
-    name: 'Ramesh Uikey',
-    village: 'Hoshangabad'
+    id: 'dairy-producers',
+    slug: 'dairy-producers',
+    name: 'Dairy Producers',
+    village: 'Local Dairy'
   }
 ];
 
@@ -390,8 +849,8 @@ export const mockDb = {
     return {
       products: transformedProducts,
       pagination: {
-        currentPage: searchParams.page,
-        totalPages: Math.ceil(totalCount / searchParams.limit),
+        currentPage: searchParams.page || 1,
+        totalPages: Math.ceil(totalCount / (searchParams.limit || 10)),
         totalProducts: totalCount,
         hasNextPage: endIndex < totalCount,
         hasPrevPage: searchParams.page > 1
@@ -544,4 +1003,99 @@ export const mockDb = {
     );
     return mockWishlistItems.length < initialLength;
   },
+  
+  // Admin operations for mock database
+  async getAllProducts(): Promise<any[]> {
+    // Enhance products with category and artisan data and proper image mapping
+    return mockProducts.map(product => {
+      const category = mockCategories.find((c: any) => c.id === product.categoryId);
+      const artisan = mockArtisans.find((a: any) => a.id === product.artisanId);
+      
+      return {
+        ...product,
+        category: category ? {
+          id: category.id,
+          name: category.name,
+          slug: category.slug
+        } : null,
+        artisan: artisan ? {
+          id: artisan.id,
+          name: artisan.name,
+          village: artisan.village
+        } : null,
+        productImages: product.images.map((url: string, index: number) => ({
+          url,
+          isPrimary: index === 0
+        }))
+      };
+    });
+  },
+  
+  async createProduct(productData: any): Promise<any> {
+    // Generate a new ID for the product
+    const newId = `prod-${Date.now()}`;
+    
+    // Create the product object
+    const newProduct = {
+      id: newId,
+      ...productData,
+      // Map images array to the format expected by the frontend
+      images: productData.images || [],
+      // Set default values for boolean fields if not provided
+      featured: productData.featured || false,
+      bestSeller: productData.bestSeller || false,
+      newArrival: productData.newArrival || false,
+      trending: productData.trending || false,
+      isActive: productData.isActive !== undefined ? productData.isActive : true,
+      rating: productData.rating || 0,
+      reviewCount: productData.reviewCount || 0,
+      createdAt: new Date().toISOString()
+    };
+    
+    // Add the new product to the mockProducts array
+    mockProducts.push(newProduct);
+    
+    // Return the created product with enhanced data
+    const category = mockCategories.find((c: any) => c.id === newProduct.categoryId);
+    const artisan = mockArtisans.find((a: any) => a.id === newProduct.artisanId);
+    
+    return {
+      ...newProduct,
+      category: category ? {
+        id: category.id,
+        name: category.name,
+        slug: category.slug
+      } : null,
+      artisan: artisan ? {
+        id: artisan.id,
+        name: artisan.name,
+        village: artisan.village
+      } : null,
+      productImages: newProduct.images.map((url: string, index: number) => ({
+        url,
+        isPrimary: index === 0
+      }))
+    };
+  },
+  
+  async getAllCategories(): Promise<any[]> {
+    return mockCategories;
+  },
+  
+  async getAllArtisans(): Promise<any[]> {
+    return mockArtisans;
+  },
+  
+  async getAllBanners(): Promise<any[]> {
+    return []; // Return empty array for banners in mock
+  },
+  
+  async getDashboardStats(): Promise<any> {
+    return {
+      totalProducts: mockProducts.length,
+      totalOrders: mockOrders.length,
+      totalUsers: mockUsers.length,
+      totalArtisans: mockArtisans.length
+    };
+  }
 };

@@ -23,7 +23,7 @@ export default function AdminCategoriesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
       router.push('/login');
       return;
     }

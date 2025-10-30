@@ -31,8 +31,8 @@ export default function CheckoutPage() {
       // Fetch data for each product in the cart
       for (const item of cartState.items) {
         try {
-          // Extract product ID - it might be in the variant or the main productId
-          const productId = item.variant?.slug || item.productId;
+          // Extract product ID - it's in the main productId
+          const productId = item.productId;
           
           // Fetch product data from API
           const response = await fetch(`/api/products/${productId}`);
@@ -48,18 +48,19 @@ export default function CheckoutPage() {
             // Fallback to variant data if available
             productDataMap[item.productId] = {
               id: item.productId,
-              name: item.variant?.title || `Product ${item.productId}`,
-              price: item.variant?.price || 0,
+              name: item.variant?.size || item.variant?.color || `Product ${item.productId}`,
+              price: 0,
               image: '/images/products/placeholder.jpg'
             };
           }
+
         } catch (error) {
           console.error('Error fetching product data:', error);
           // Fallback data
           productDataMap[item.productId] = {
             id: item.productId,
-            name: item.variant?.title || `Product ${item.productId}`,
-            price: item.variant?.price || 0,
+            name: item.variant?.size || item.variant?.color || `Product ${item.productId}`,
+            price: 0,
             image: '/images/products/placeholder.jpg'
           };
         }
@@ -76,7 +77,7 @@ export default function CheckoutPage() {
   // Calculate totals
   const subtotal = cartState.items.reduce((total, item) => {
     const product = productData[item.productId];
-    const price = product ? product.price : (item.variant?.price || 0);
+    const price = product ? product.price : 0;
     return total + (price * item.quantity);
   }, 0);
   
@@ -384,8 +385,8 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6">
                 {cartState.items.map((item) => {
                   const product = productData[item.productId] || {
-                    name: item.variant?.title || `Product ${item.productId}`,
-                    price: item.variant?.price || 0,
+                    name: item.variant?.size || item.variant?.color || `Product ${item.productId}`,
+                    price: 0,
                     image: '/images/products/placeholder.jpg'
                   };
                   

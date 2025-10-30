@@ -38,7 +38,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
       
       try {
         setLoading(true);
-        // Use the slug directly in the API call
+        // Use the correct API endpoint structure
         const response = await fetch(`/api/products/${resolvedParams.slug}`);
         const data = await response.json();
         
@@ -70,7 +70,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product.id, quantity, selectedVariant);
+      addToCart(product.id, quantity, { 
+        slug: product.slug,
+        title: product.title?.[language] || product.title?.en || product.name || 'Product',
+        price: product.price
+      });
       
       // Show notification
       if (typeof window !== 'undefined' && (window as any).showNotification) {
@@ -84,7 +88,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
   const handleBuyNow = () => {
     if (product) {
-      addToCart(product.id, quantity, selectedVariant);
+      addToCart(product.id, quantity, { 
+        slug: product.slug,
+        title: product.title?.[language] || product.title?.en || product.name || 'Product',
+        price: product.price
+      });
       // Redirect to checkout with product slug
       router.push(`/checkout?slug=${product.slug || resolvedParams?.slug}`);
     }
@@ -92,6 +100,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
 
   const handleWishlistToggle = () => {
     if (product) {
+      const productData = {
+        id: product.id,
+        slug: product.slug,
+        title: product.title?.[language] || product.title?.en || product.name || 'Product',
+        price: product.price,
+        image: product.images?.[0] || '/images/products/placeholder.jpg'
+      };
+      
       if (inWishlist) {
         removeFromWishlist(product.id);
         if (typeof window !== 'undefined' && (window as any).showNotification) {
@@ -109,6 +125,44 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
           );
         }
       }
+    }
+  };
+
+  const handleShare = async () => {
+    const productUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const productName = product?.title?.[language] || product?.title?.en || product?.name || 'Product';
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: productName,
+          text: `Check out this product: ${productName}`,
+          url: productUrl
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+        // Fallback to copy URL
+        handleCopyUrl();
+      }
+    } else {
+      // Fallback to copy URL
+      handleCopyUrl();
+    }
+  };
+
+  const handleCopyUrl = () => {
+    const productUrl = typeof window !== 'undefined' ? window.location.href : '';
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(productUrl).then(() => {
+        if ((window as any).showNotification) {
+          (window as any).showNotification(
+            language === 'en' ? 'Link copied to clipboard! ✅' : 'लिंक क्लिपबोर्ड पर कॉपी किया गया! ✅',
+            'success'
+          );
+        }
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
     }
   };
 
@@ -426,7 +480,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               {inWishlist ? t('removeFromWishlist') : t('addToWishlist')}
             </button>
             
-            <button className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-sm flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+            <button 
+              onClick={handleShare}
+              className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-sm flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
               <Share2 className="w-5 h-5 mr-2" />
               {t('share')}
             </button>

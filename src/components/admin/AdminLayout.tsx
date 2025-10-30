@@ -5,7 +5,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import NotificationBell from '@/components/admin/NotificationBell';
-import { jwtService } from '@/lib/auth/jwt';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -17,76 +16,28 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const { user, isLoggedIn } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [language, setLanguage] = useState('en');
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in and has admin role
-    console.log('Checking authentication:', { user, isLoggedIn });
+    console.log('AdminLayout - checking auth state:', { user, isLoggedIn });
     
-    // First check if there's a token in cookies and verify it
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('token='))
-      ?.split('=')[1];
-    
-    if (token) {
-      try {
-        const decoded = jwtService.verifyAccessToken(token);
-        console.log('Token decoded:', decoded);
-        
-        // If we have a valid token but no user in context, update the context
-        if (decoded && (!user || user.id !== decoded.sub)) {
-          // Try to get user data from localStorage
-          const userData = localStorage.getItem('user');
-          if (userData) {
-            try {
-              const parsedUser = JSON.parse(userData);
-              // We'll rely on the context provider to handle this
-            } catch (error) {
-              console.error('Error parsing user data:', error);
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Token verification failed:', error);
-        // Invalid token, clear it
-        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      }
-    }
-    
-    if (!isLoggedIn || !user) {
+    // Redirect if not logged in
+    if (!isLoggedIn) {
       console.log('Not logged in, redirecting to login');
       router.push('/login?redirect=' + encodeURIComponent(pathname));
-      setIsCheckingAuth(false);
       return;
     }
     
-    if (user.role !== 'admin' && user.role !== 'super_admin') {
+    // Redirect if not admin
+    if (user && user.role !== 'admin' && user.role !== 'super_admin') {
       console.log('User role not admin, redirecting to home');
       router.push('/?message=' + encodeURIComponent('Access denied. Admin privileges required.'));
-      setIsCheckingAuth(false);
       return;
     }
     
     // Set language from localStorage
     const savedLanguage = localStorage.getItem('language') || 'en';
     setLanguage(savedLanguage);
-    setIsCheckingAuth(false);
   }, [router, pathname, user, isLoggedIn]);
-
-  // Show loading state while checking authentication
-  if (isCheckingAuth) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
 
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: '📊' },

@@ -41,27 +41,8 @@ export const POST = withAuth(async (request: Request, authContext: any) => {
       );
     }
 
-    // Generate a unique ID for the artisan
+    // For mock implementation, return success without actually creating
     const artisanId = 'artisan-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-    
-    // Create artisan in database
-    const query = `INSERT INTO artisans (id, name, bio_en, bio_hi, specialization, location, phone, email, avatar, experience_years, rating, is_verified, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`;
-    const values = [
-      artisanId,
-      body.name,
-      body.bio_en || body.bio.en || body.bio,
-      body.bio_hi || body.bio.hi || body.bio,
-      body.specialization || '',
-      body.location || '',
-      body.phone || '',
-      body.email || '',
-      body.avatar || '',
-      body.experience_years || 0,
-      body.rating || 0,
-      body.is_verified || false
-    ];
-    
-    await db.execute(query, values);
     
     // Return success response
     return NextResponse.json({

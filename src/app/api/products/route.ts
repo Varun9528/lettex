@@ -3,8 +3,29 @@ import { db } from '@/lib/database/connection';
 
 export async function GET(request: NextRequest) {
   try {
-    // Get all products from the database
-    const products = await db.getAllProducts();
+    // Parse query parameters
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+    const featured = searchParams.get('featured');
+    const bestSeller = searchParams.get('bestSeller');
+    const newArrival = searchParams.get('newArrival');
+    const limit = searchParams.get('limit');
+    
+    // Prepare filters
+    const filters: any = {};
+    if (category) filters.category = category;
+    if (featured === 'true') filters.featured = true;
+    if (bestSeller === 'true') filters.bestSeller = true;
+    if (newArrival === 'true') filters.newArrival = true;
+    if (limit) filters.limit = parseInt(limit);
+    
+    // If any filters are applied, use getProducts, otherwise use getAllProducts
+    let products;
+    if (Object.keys(filters).length > 0) {
+      products = await db.getProducts(filters);
+    } else {
+      products = await db.getAllProducts();
+    }
     
     // Format products for frontend
     const formattedProducts = products.map((product: any) => {
@@ -24,7 +45,7 @@ export async function GET(request: NextRequest) {
         rating: product.rating,
         review_count: product.reviewCount,
         category: product.category,
-        images: primaryImage ? [primaryImage.url] : [],
+        images: primaryImage ? [primaryImage.url] : product.images || [],
         productImages: product.productImages,
         featured: product.featured,
         best_seller: product.bestSeller,

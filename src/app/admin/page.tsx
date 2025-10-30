@@ -7,54 +7,82 @@ import Link from 'next/link';
 import { Plus, RefreshCw } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const router = useRouter();
   const [stats, setStats] = useState({
     totalProducts: 0,
     totalOrders: 0,
     totalUsers: 0,
     totalArtisans: 0,
-    totalRevenue: 0
+    totalRevenue: 0,
+    totalCategories: 0,
+    totalBanners: 0
   });
   const [loading, setLoading] = useState(true);
+  const [checkedAuth, setCheckedAuth] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in and has admin role
-    if (!user) {
+    if (!checkedAuth) {
+      setCheckedAuth(true);
+      return;
+    }
+
+    if (!isLoggedIn) {
       router.push('/login');
       return;
     }
 
-    // Check role (case-insensitive)
-    const userRole = user.role?.toLowerCase();
-    if (userRole !== 'admin' && userRole !== 'super_admin') {
-      router.push('/login');
-      return;
-    }
-
-    const fetchStats = async () => {
-      try {
-        // Fetch dashboard stats from API
-        const response = await fetch('/api/admin/dashboard/stats');
-        
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success) {
-            setStats(data.stats);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      } finally {
-        setLoading(false);
+    if (user) {
+      // Check role (case-insensitive)
+      const userRole = user.role?.toLowerCase();
+      if (userRole !== 'admin' && userRole !== 'super_admin') {
+        router.push('/login');
+        return;
       }
-    };
 
-    fetchStats();
-  }, [user, router]);
+      const fetchStats = async () => {
+        try {
+          // Fetch dashboard stats from API
+          const response = await fetch('/api/admin/dashboard/stats');
+          
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+              setStats(data.stats);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching stats:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchStats();
+    }
+  }, [user, isLoggedIn, router, checkedAuth]);
+
+  // Show loading state while checking auth
+  if (!checkedAuth || (!isLoggedIn && typeof window !== 'undefined')) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If not logged in, don't show anything (redirect will happen)
+  if (!isLoggedIn) {
+    return null;
+  }
 
   // Additional check for role (in case of direct access)
-  if (user && user.role !== 'admin' && user.role !== 'super_admin') {
+  const userRole = user?.role?.toLowerCase();
+  if (userRole !== 'admin' && userRole !== 'super_admin') {
     router.push('/login');
     return null;
   }
@@ -73,7 +101,10 @@ export default function AdminDashboard() {
                 <Plus className="w-4 h-4 mr-2" />
                 Add Product
               </button>
-              <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
+              <button 
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center"
+                onClick={() => window.location.reload()}
+              >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh
               </button>
@@ -81,7 +112,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6 mb-8">
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center">
                 <div className="p-3 rounded-full bg-blue-100 text-blue-600">
@@ -141,6 +172,38 @@ export default function AdminDashboard() {
                   <p className="text-sm font-medium text-gray-600">Total Artisans</p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {loading ? '...' : stats.totalArtisans}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center">
+                <div className="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Categories</p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {loading ? '...' : stats.totalCategories}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="flex items-center">
+                <div className="p-3 rounded-full bg-pink-100 text-pink-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                  </svg>
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Banners</p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {loading ? '...' : stats.totalBanners}
                   </p>
                 </div>
               </div>

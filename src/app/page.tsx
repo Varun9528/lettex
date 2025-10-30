@@ -89,7 +89,7 @@ export default function Home() {
       village: 'Mumbai',
       rating: 4.8,
       totalProducts: 24,
-      photo: '/images/artisans/arti-priya-sharma.jpg'
+      photo: '/uploads/artisans/arti-priya-sharma.jpg'
     },
     {
       id: 'raj-kumar',
@@ -98,7 +98,7 @@ export default function Home() {
       village: 'Delhi',
       rating: 4.6,
       totalProducts: 18,
-      photo: '/images/artisans/arti-raj-kumar.jpg'
+      photo: '/uploads/artisans/arti-raj-kumar.jpg'
     },
     {
       id: 'anita-desai',
@@ -107,7 +107,7 @@ export default function Home() {
       village: 'Bangalore',
       rating: 4.7,
       totalProducts: 15,
-      photo: '/images/artisans/arti-anita-desai.jpg'
+      photo: '/uploads/artisans/arti-anita-desai.jpg'
     },
     {
       id: 'suresh-patel',
@@ -116,7 +116,7 @@ export default function Home() {
       village: 'Ahmedabad',
       rating: 4.5,
       totalProducts: 20,
-      photo: '/images/artisans/arti-suresh-patel.jpg'
+      photo: '/uploads/artisans/arti-suresh-patel.jpg'
     }
   ];
 

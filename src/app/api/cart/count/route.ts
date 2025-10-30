@@ -14,9 +14,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const cartItemCount = await prisma.cartItem.count({
+    const cartItemCount = await prisma.carts.count({
       where: {
-        userId: session.user.id
+        user_id: session.user.id
       }
     });
 

@@ -201,7 +201,7 @@ export default function CategoryPage() {
           <div className="mb-8">
             <div className="relative h-48 rounded-lg overflow-hidden mb-6">
               <Image
-                src={category.image || `/images/categories/${category.slug}.png`}
+                src={category.image || `/uploads/categories/${category.slug}.png`}
                 alt={category.name?.[language] || category.name?.en || category.name}
                 fill
                 className="object-cover"

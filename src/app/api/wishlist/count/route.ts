@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/auth/session';
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/database/connection';
 
 // Get wishlist item count
 export async function GET(request: NextRequest) {
@@ -14,11 +14,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const wishlistItemCount = await prisma.wishlistItem.count({
-      where: {
-        userId: session.user.id
-      }
-    });
+    const wishlistItems = await db.getWishlistItems(session.user.id);
+    const wishlistItemCount = wishlistItems.length;
 
     return NextResponse.json({
       success: true,

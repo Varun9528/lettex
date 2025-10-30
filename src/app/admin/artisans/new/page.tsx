@@ -57,7 +57,7 @@ export default function NewArtisanPage() {
       }
       
       router.push('/admin/artisans');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating artisan:', error);
       alert('Failed to create artisan');
     } finally {

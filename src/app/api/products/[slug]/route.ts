@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
       rating: product.rating,
       reviewCount: product.reviewCount,
       categoryId: product.categoryId,
-      artisanId: product.artisanId,
+      artisan_id: product.artisanId,
       images: product.images,
       material: product.material,
       dimensions: product.dimensions,
